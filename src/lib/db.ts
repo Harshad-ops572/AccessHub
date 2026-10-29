@@ -18,6 +18,13 @@ if (!global.mongooseCache) {
 }
 
 async function getMongoUri(): Promise<string> {
+  if (process.env.NODE_ENV === "production") {
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI environment variable is missing in production");
+    }
+    return process.env.MONGODB_URI;
+  }
+
   // If an Atlas or external URI is explicitly provided (and not the default uncontactable local port), use it
   if (
     process.env.MONGODB_URI &&

@@ -4,6 +4,10 @@ import bcrypt from "bcryptjs";
 import { connectToDatabase } from "./db";
 import { User } from "@/models/User";
 
+if (process.env.NODE_ENV === "production" && !process.env.NEXTAUTH_SECRET) {
+  throw new Error("NEXTAUTH_SECRET environment variable is missing in production");
+}
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -73,7 +77,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET || "campus_share_super_secret_jwt_key_2026",
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default authOptions;

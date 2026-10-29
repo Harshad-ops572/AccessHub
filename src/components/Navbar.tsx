@@ -86,34 +86,34 @@ export function Navbar() {
   const getRoleBadgeColor = (role?: string) => {
     switch (role) {
       case "admin":
-        return "bg-purple-950/80 text-purple-300 border-purple-700/60";
+        return "bg-purple-950/70 text-purple-300 border-purple-700/60 shadow-sm shadow-purple-900/20";
       case "owner":
-        return "bg-blue-950/80 text-blue-300 border-blue-700/60";
+        return "bg-blue-950/70 text-blue-300 border-blue-700/60 shadow-sm shadow-blue-900/20";
       case "manager":
-        return "bg-amber-950/80 text-amber-300 border-amber-700/60";
+        return "bg-amber-950/70 text-amber-300 border-amber-700/60 shadow-sm shadow-amber-900/20";
       default:
-        return "bg-emerald-950/80 text-emerald-300 border-emerald-700/60";
+        return "bg-emerald-950/70 text-emerald-300 border-emerald-700/60 shadow-sm shadow-emerald-900/20";
     }
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20 group-hover:scale-105 transition">
+        <Link href="/" className="flex items-center gap-3 shrink-0 group">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-105 group-hover:shadow-indigo-500/40 transition-all duration-300">
             <ShieldCheck className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-bold text-white tracking-tight leading-none group-hover:text-indigo-300 transition">
+            <span className="text-base font-bold text-white tracking-tight leading-none group-hover:text-indigo-300 transition-colors">
               AccessHub
             </span>
-            <span className="text-[10px] text-slate-400 font-medium">Campus Equip & Space Trust</span>
+            <span className="text-[10px] text-slate-400 font-medium tracking-wide">Campus Resource Trust</span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1.5 bg-slate-900/60 border border-slate-800/80 rounded-xl p-1 backdrop-blur-sm">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
@@ -121,13 +121,13 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all duration-200 ${
                   isActive
-                    ? "bg-slate-800 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                    ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/30"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-3.5 w-3.5" />
                 <span>{link.label}</span>
               </Link>
             );

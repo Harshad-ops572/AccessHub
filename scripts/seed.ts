@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "../src/lib/db";
 import { User } from "../src/models/User";
@@ -17,7 +18,8 @@ async function seed() {
   console.log("=================================================");
 
   await connectToDatabase();
-  console.log("✓ Connected to MongoDB");
+  const dbHost = mongoose.connection.host || "unknown";
+  console.log(`✓ Connected to MongoDB host: ${dbHost}`);
 
   // Clear existing collections for a pristine evaluation state
   await Promise.all([
@@ -513,6 +515,13 @@ async function seed() {
   console.log("| user     | student.a@campus.test   | Liam Chen           | Fully verified & eligible         |");
   console.log("| user     | student.b@campus.test   | Maya Patel          | MISSING 3D printer safety cert    |");
   console.log("| user     | student.c@campus.test   | Jordan Taylor       | AT 8h QUOTA LIMIT (1 strike)      |");
+  const userCount = await User.countDocuments();
+  const resourceCount = await Resource.countDocuments();
+  const bookingCount = await Booking.countDocuments();
+
+  console.log("=================================================");
+  console.log(`Database Host: ${dbHost}`);
+  console.log(`Summary: Created ${userCount} users, ${resourceCount} resources, and ${bookingCount} bookings.`);
   console.log("=================================================\n");
 
   process.exit(0);

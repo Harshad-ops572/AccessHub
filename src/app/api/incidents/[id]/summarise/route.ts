@@ -70,7 +70,7 @@ Provide a structured 3-part advisory summary:
               "anthropic-version": "2023-06-01",
             },
             body: JSON.stringify({
-              model: "claude-3-5-haiku-20241022",
+              model: "claude-haiku-5-5",
               max_tokens: 1000,
               messages: [{ role: "user", content: prompt }],
             }),
@@ -85,7 +85,7 @@ Provide a structured 3-part advisory summary:
         } else {
           // Google Gemini API
           const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${aiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${aiKey}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

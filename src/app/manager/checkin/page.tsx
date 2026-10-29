@@ -43,7 +43,9 @@ export default function ManagerCheckinPage() {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [rating, setRating] = useState(5);
   const [notes, setNotes] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80");
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [showPhotoUrlFallback, setShowPhotoUrlFallback] = useState(false);
   const [reportDamage, setReportDamage] = useState(false);
   const [checklist, setChecklist] = useState<Array<{ item: string; passed: boolean }>>([
     { item: "Power cables and adapters present", passed: true },
@@ -54,12 +56,44 @@ export default function ManagerCheckinPage() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const handlePhotoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingPhoto(true);
+    setErrorMsg("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/uploads", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setErrorMsg(data.error || "Failed to upload photo");
+        setShowPhotoUrlFallback(true);
+      } else {
+        setPhotoUrl(data.url);
+      }
+    } catch {
+      setErrorMsg("Failed to upload photo");
+      setShowPhotoUrlFallback(true);
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
   const handleOpenCheckin = (booking: any) => {
     setSelectedBooking(booking);
     setActiveModal("checkin");
     setRating(5);
     setNotes("Equipment inspected in lab. Handover condition verified.");
-    setPhotoUrl("https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80");
+    setPhotoUrl("");
+    setShowPhotoUrlFallback(false);
     setChecklist([
       { item: "Power cables and adapters present", passed: true },
       { item: "No physical chassis damage or cracks", passed: true },
@@ -74,7 +108,8 @@ export default function ManagerCheckinPage() {
     setActiveModal("return");
     setRating(4); // Default to slightly lower to demonstrate comparison
     setNotes("Returned to tool crib. Minor cosmetic residue on build surface.");
-    setPhotoUrl("https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=600&q=80");
+    setPhotoUrl("");
+    setShowPhotoUrlFallback(false);
     setChecklist([
       { item: "Power cables and adapters present", passed: true },
       { item: "No physical chassis damage or cracks", passed: true },
@@ -355,18 +390,62 @@ export default function ManagerCheckinPage() {
                 />
               </div>
 
-              {/* 4. Photo URL */}
+              {/* 4. Photo Upload */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Condition Verification Photo URL:
+                  Condition Verification Photo:
                 </label>
                 <input
-                  type="url"
-                  value={photoUrl}
-                  onChange={(e) => setPhotoUrl(e.target.value)}
-                  placeholder="https://..."
-                  className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={handlePhotoFileChange}
+                  disabled={uploadingPhoto}
+                  className="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer p-2 rounded-lg bg-slate-800 border border-slate-700"
                 />
+                <span className="text-[10px] text-slate-500 mt-1 block">
+                  Attach PNG, JPG, or WEBP photo of equipment condition.
+                </span>
+
+                {uploadingPhoto && (
+                  <div className="mt-2 text-xs text-indigo-400 flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 border-2 border-indigo-400/20 border-t-indigo-400 rounded-full animate-spin" />
+                    <span>Uploading photo...</span>
+                  </div>
+                )}
+
+                {photoUrl && (
+                  <div className="mt-2 p-2 rounded bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 truncate">
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                      <span className="truncate">Photo attached: {photoUrl}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-2 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setShowPhotoUrlFallback(!showPhotoUrlFallback)}
+                    className="text-[11px] text-indigo-400 hover:underline"
+                  >
+                    {showPhotoUrlFallback ? "Hide URL input" : "Or paste photo URL directly"}
+                  </button>
+                </div>
+
+                {showPhotoUrlFallback && (
+                  <div className="mt-2">
+                    <label className="block text-[11px] font-medium text-slate-400 mb-1">
+                      Photo URL (Fallback)
+                    </label>
+                    <input
+                      type="url"
+                      value={photoUrl}
+                      onChange={(e) => setPhotoUrl(e.target.value)}
+                      placeholder="https://..."
+                      className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Return-specific: Explicit Damage Incident Toggle */}
@@ -400,7 +479,7 @@ export default function ManagerCheckinPage() {
                 </button>
                 <button
                   type="button"
-                  disabled={submitting}
+                  disabled={submitting || uploadingPhoto}
                   onClick={handleSubmitInspection}
                   className={`px-5 py-2.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-1.5 shadow-lg ${
                     activeModal === "checkin"

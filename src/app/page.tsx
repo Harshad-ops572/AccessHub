@@ -25,28 +25,30 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-16 sm:py-24 border-b border-slate-900 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]">
+        <section className="relative overflow-hidden py-20 sm:py-28 border-b border-slate-900 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.2),rgba(15,23,42,0))]">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b0a_1px,transparent_1px),linear-gradient(to_bottom,#1e293b0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/50 text-indigo-300 text-xs font-medium mb-6 backdrop-blur">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/70 border border-indigo-700/50 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Campus Resource & Equipment Sharing MVP</span>
+              <span>Campus Resource & Equipment Sharing Platform</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight sm:leading-none">
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] sm:leading-[1.1]">
               Unlock underused campus labs, <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
                 makerspaces, and tools
               </span>
             </h1>
 
             <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              A trusted, auditable platform where academic departments share advanced research equipment with students and innovators. Built with rigorous safety checks, condition inspections, and explainable fair allocation.
+              A trusted, auditable platform where academic departments share advanced research equipment with students and innovators. Built with hard safety verification, condition inspections, and explainable fair allocation.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/resources"
-                className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition flex items-center gap-2 shadow-xl shadow-indigo-600/30 group"
+                className="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-sm transition-all duration-200 flex items-center gap-2 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/40 group hover:-translate-y-0.5"
               >
                 <Compass className="h-4 w-4" />
                 <span>Explore Campus Resources</span>
@@ -64,59 +66,59 @@ export default function HomePage() {
                       ? "/admin/audit"
                       : "/bookings"
                   }
-                  className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-sm transition flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm transition flex items-center gap-2 shadow-md hover:-translate-y-0.5"
                 >
                   <span>Go to My Dashboard ({user.role})</span>
                 </Link>
               ) : (
                 <Link
                   href="/login"
-                  className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-sm transition flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm transition flex items-center gap-2 shadow-md hover:-translate-y-0.5"
                 >
                   <Lock className="h-4 w-4 text-slate-400" />
-                  <span>Demo Logins (1-Click)</span>
+                  <span>Demo Logins (1-Click Switcher)</span>
                 </Link>
               )}
             </div>
 
             {/* Quick stats / Highlights */}
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 backdrop-blur">
-                <div className="text-2xl font-bold text-white flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-emerald-400" />
-                  Safety First
+            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto text-left">
+              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
+                <div className="text-base font-bold text-white flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  Safety Verification
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   Required credentials verified by certified lab managers before access.
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 backdrop-blur">
-                <div className="text-2xl font-bold text-white flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-indigo-400" />
+              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
+                <div className="text-base font-bold text-white flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-indigo-400" />
                   Zero Conflicts
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   Database transactions prevent double bookings with suggested alternatives.
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 backdrop-blur">
-                <div className="text-2xl font-bold text-white flex items-center gap-2">
-                  <ClipboardCheck className="h-5 w-5 text-amber-400" />
-                  Condition Log
+              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
+                <div className="text-base font-bold text-white flex items-center gap-2">
+                  <ClipboardCheck className="h-4 w-4 text-amber-400" />
+                  Condition Tracking
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   Check-in and return photos & ratings detect damage or deterioration instantly.
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 backdrop-blur">
-                <div className="text-2xl font-bold text-white flex items-center gap-2">
-                  <ScrollText className="h-5 w-5 text-purple-400" />
+              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
+                <div className="text-base font-bold text-white flex items-center gap-2">
+                  <ScrollText className="h-4 w-4 text-purple-400" />
                   Audit Trail
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
                   Append-only immutable record of every approval, rejection, and condition change.
                 </div>
               </div>

@@ -34,13 +34,50 @@ function CredentialsContent() {
   const credentials = data?.credentials || [];
 
   const [type, setType] = useState(prefillType || "3D Printer Safety Certification");
-  const [docUrl, setDocUrl] = useState("https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80");
+  const [docUrl, setDocUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [showUrlFallback, setShowUrlFallback] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setErrorMsg("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/uploads", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setErrorMsg(data.error || "Upload failed");
+        setShowUrlFallback(true);
+      } else {
+        setDocUrl(data.url);
+      }
+    } catch {
+      setErrorMsg("Failed to upload file");
+      setShowUrlFallback(true);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!docUrl) {
+      setErrorMsg("Please upload a file or provide a document URL");
+      return;
+    }
     setSubmitting(true);
     setErrorMsg("");
     setSuccess(false);
@@ -160,24 +197,64 @@ function CredentialsContent() {
 
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  Document URL / Proof of Completion
+                  Upload Document / Proof of Completion
                 </label>
                 <input
-                  type="url"
-                  required
-                  value={docUrl}
-                  onChange={(e) => setDocUrl(e.target.value)}
-                  placeholder="https://..."
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,application/pdf"
+                  onChange={handleFileChange}
+                  disabled={uploading}
+                  className="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer p-2 rounded-lg bg-slate-800 border border-slate-700"
                 />
                 <span className="text-[10px] text-slate-500 mt-1 block">
-                  Link to digital certificate, badge, or scan.
+                  PNG, JPG, WEBP images or PDF under 5 MB.
                 </span>
+
+                {uploading && (
+                  <div className="mt-2 text-xs text-indigo-400 flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 border-2 border-indigo-400/20 border-t-indigo-400 rounded-full animate-spin" />
+                    <span>Uploading file to storage...</span>
+                  </div>
+                )}
+
+                {docUrl && (
+                  <div className="mt-2 p-2 rounded bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 truncate">
+                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                      <span className="truncate">Attached: {docUrl}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-2 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setShowUrlFallback(!showUrlFallback)}
+                    className="text-[11px] text-indigo-400 hover:underline"
+                  >
+                    {showUrlFallback ? "Hide URL input" : "Or paste URL directly"}
+                  </button>
+                </div>
+
+                {showUrlFallback && (
+                  <div className="mt-2">
+                    <label className="block text-[11px] font-medium text-slate-400 mb-1">
+                      Document URL (Fallback)
+                    </label>
+                    <input
+                      type="url"
+                      value={docUrl}
+                      onChange={(e) => setDocUrl(e.target.value)}
+                      placeholder="https://..."
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                )}
               </div>
 
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || uploading}
                 className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 disabled:opacity-50"
               >
                 {submitting ? (

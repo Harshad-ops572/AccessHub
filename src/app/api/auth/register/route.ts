@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, password, department, role } = validatedData.data;
+    const { name, email, password, department } = validatedData.data;
 
     await connectToDatabase();
 
@@ -30,27 +30,28 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    // Student users start verified for baseline, owners require admin verification unless seeded
-    const verificationStatus = role === "owner" ? "unverified" : "verified";
+    // Every self-registered account must be created with role "user" and verificationStatus "verified"
+    const role = "user";
+    const verificationStatus = "verified";
 
     const newUser = await User.create({
       name,
       email,
       passwordHash,
       department,
-      role,
-      verificationStatus,
+      role: "user",
+      verificationStatus: "verified",
       strikes: 0,
       weeklyHoursUsed: 0,
     });
 
     await writeAudit({
       actorId: newUser._id.toString(),
-      actorRole: role,
+      actorRole: "user",
       action: "USER_REGISTERED",
       entityType: "User",
       entityId: newUser._id.toString(),
-      after: { email, role, department, verificationStatus },
+      after: { email, role: "user", department, verificationStatus: "verified" },
       reason: "Self-service registration",
     });
 

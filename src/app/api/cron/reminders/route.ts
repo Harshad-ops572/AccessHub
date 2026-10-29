@@ -4,9 +4,13 @@ import { Booking } from "@/models/Booking";
 import { Notification } from "@/models/Notification";
 
 export async function GET(req: NextRequest) {
+  if (process.env.NODE_ENV === "production" && !process.env.CRON_SECRET) {
+    throw new Error("CRON_SECRET environment variable is missing in production");
+  }
+
   try {
     const authHeader = req.headers.get("authorization");
-    const cronSecret = process.env.CRON_SECRET || "campus_cron_secret";
+    const cronSecret = process.env.CRON_SECRET;
     
     // Allow cron secret header or local development
     if (process.env.NODE_ENV === "production" && authHeader !== `Bearer ${cronSecret}`) {
