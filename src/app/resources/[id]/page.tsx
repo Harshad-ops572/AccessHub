@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -34,6 +34,7 @@ export default function ResourceDetailPage({
 
   const { data: session } = useSession();
   const user = session?.user;
+  const [imgError, setImgError] = useState(false);
 
   const { data: resData, error: resError, isLoading: resLoading } = useSWR(
     `/api/resources/${resourceId}`,
@@ -106,7 +107,7 @@ export default function ResourceDetailPage({
   }
 
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const hasPhoto = resource.photos && resource.photos.length > 0;
+  const hasPhoto = resource.photos && resource.photos.length > 0 && !imgError;
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-slate-600 font-sans">
@@ -133,6 +134,7 @@ export default function ResourceDetailPage({
                   <img
                     src={resource.photos[0]}
                     alt={resource.title}
+                    onError={() => setImgError(true)}
                     className="h-full w-full object-cover"
                   />
                 ) : (

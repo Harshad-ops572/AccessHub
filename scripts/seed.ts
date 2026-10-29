@@ -219,7 +219,7 @@ async function seed() {
       description: "High bandwidth digital storage oscilloscope with 5 GS/s sampling rate, 16 digital logic channels, and protocol decoding for embedded hardware diagnostics.",
       location: "Electronics & Robotics Lab, Room 215",
       photos: [
-        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=800&q=80",
       ],
       ownerId: ownerEng._id,
       rules: "Never exceed 300V CAT II input voltage. ESD grounding wrist straps are mandatory at this bench.",
@@ -284,7 +284,7 @@ async function seed() {
       description: "120-Watt CO2 laser with 48 x 36 inch engraving table, IRIS camera positioning system, and high-flow HEPA fume extraction.",
       location: "Advanced Fabrication Lab, Room 105",
       photos: [
-        "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+        "/laser-cutter.jpg",
       ],
       ownerId: ownerEng._id,
       rules: "NEVER leave the laser unattended while firing. Only acrylic, wood, cardboard, and anodized aluminum allowed. PVC and vinyl are strictly forbidden.",

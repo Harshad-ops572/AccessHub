@@ -63,7 +63,8 @@ export function ResourceCard({ resource }: ResourceCardProps) {
     }
   };
 
-  const hasPhoto = resource.photos && resource.photos.length > 0;
+  const [imgError, setImgError] = React.useState(false);
+  const hasPhoto = resource.photos && resource.photos.length > 0 && !imgError;
 
   return (
     <GlassCard
@@ -77,6 +78,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             <img
               src={resource.photos[0]}
               alt={resource.title}
+              onError={() => setImgError(true)}
               className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
