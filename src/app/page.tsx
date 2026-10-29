@@ -410,7 +410,7 @@ export default function HomePage() {
             </div>
 
             {/* Right 4 Cols: "How It Works" + "Verified & Safe" Cards */}
-            <div className="lg:col-span-4 space-y-4">
+            <div id="how-it-works" className="lg:col-span-4 space-y-4 scroll-mt-24">
               {/* How It Works Card */}
               <GlassCard className="p-6 space-y-5 shadow-xl">
                 <div>
