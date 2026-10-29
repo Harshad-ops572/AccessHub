@@ -1,214 +1,524 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import useSWR from "swr";
 import { Navbar } from "@/components/Navbar";
+import { GlassCard } from "@/components/GlassCard";
+import { PillButton } from "@/components/PillButton";
+import { StatusBadge } from "@/components/StatusBadge";
+import { SectionHeader } from "@/components/SectionHeader";
 import {
-  ShieldCheck,
   Compass,
-  ScrollText,
-  Sparkles,
+  Search,
   ArrowRight,
-  Lock,
+  FlaskConical,
+  Cog,
+  DoorOpen,
+  Layers,
+  Cpu,
+  ShieldCheck,
+  CheckCircle2,
+  Calendar,
   Clock,
-  ClipboardCheck,
+  MapPin,
+  Sparkles,
+  Star,
+  FileText,
+  UserCheck,
+  Zap,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function HomePage() {
-  const { data: session } = useSession();
-  const user = session?.user;
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [imgError, setImgError] = useState(false);
+
+  // Fetch real resource counts and listings from existing API
+  const { data, isLoading } = useSWR("/api/resources", fetcher);
+  const resources: any[] = data?.resources || [];
+
+  // Compute real counts from database
+  const totalCount = resources.length;
+  const labCount = resources.filter((r) => r.category === "lab").length;
+  const equipmentCount = resources.filter((r) =>
+    ["makerspace", "camera", "testing"].includes(r.category)
+  ).length;
+  const spacesCount = resources.filter((r) => r.category === "room").length;
+  const makerspaceCount = resources.filter((r) => r.category === "makerspace").length;
+  const computeCount = resources.filter((r) => r.category === "computer").length;
+
+  const handleHeroSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/resources?query=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push("/resources");
+    }
+  };
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "lab":
+        return <FlaskConical className="h-6 w-6 text-[#2F6BFF]" />;
+      case "makerspace":
+        return <Layers className="h-6 w-6 text-[#2F6BFF]" />;
+      case "room":
+        return <DoorOpen className="h-6 w-6 text-[#2F6BFF]" />;
+      case "computer":
+        return <Cpu className="h-6 w-6 text-[#2F6BFF]" />;
+      default:
+        return <Cog className="h-6 w-6 text-[#2F6BFF]" />;
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-transparent text-slate-600 font-sans">
       <Navbar />
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden py-20 sm:py-28 border-b border-slate-900 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.2),rgba(15,23,42,0))]">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b0a_1px,transparent_1px),linear-gradient(to_bottom,#1e293b0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/70 border border-indigo-700/50 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur shadow-sm">
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Campus Resource & Equipment Sharing Platform</span>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-12 sm:space-y-16">
+        {/* HERO SECTION matching reference screenshot */}
+        <section className="grid lg:grid-cols-12 gap-8 items-center pt-2 sm:pt-6">
+          {/* Left Column: Heading + Search */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            {/* Tag pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#EEF4FF] text-[#2F6BFF] border border-[#2F6BFF]/20 shadow-sm">
+              <span>Share &bull; Discover &bull; Build Together</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] sm:leading-[1.1]">
-              Unlock underused campus labs, <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
-                makerspaces, and tools
-              </span>
+            {/* Main Heading with vivid blue highlight */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-[#0F1E4D] tracking-tight leading-[1.12]">
+              Your Campus <br />
+              <span className="text-[#2F6BFF]">Resources,</span> One Hub
             </h1>
 
-            <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              A trusted, auditable platform where academic departments share advanced research equipment with students and innovators. Built with hard safety verification, condition inspections, and explainable fair allocation.
+            {/* Description */}
+            <p className="text-sm sm:text-base text-slate-500 leading-relaxed max-w-md">
+              AccessHub helps students and faculty discover and book underused
+              laboratories, equipment and spaces across the campus &mdash; safely,
+              fairly and efficiently.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/resources"
-                className="px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold text-sm transition-all duration-200 flex items-center gap-2 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/40 group hover:-translate-y-0.5"
+            {/* Large Pill Search Bar with blue circular arrow button */}
+            <form
+              onSubmit={handleHeroSearch}
+              className="relative max-w-md bg-white/90 backdrop-blur-md border border-white/90 p-1.5 pl-4 sm:pl-5 rounded-full shadow-[0_8px_30px_rgb(47,107,255,0.08)] flex items-center justify-between gap-2 focus-within:border-[#2F6BFF]/50 transition-all"
+            >
+              <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                <Search className="h-4 w-4 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for labs, equipment, spaces..."
+                  className="w-full bg-transparent text-xs sm:text-sm text-[#0F1E4D] placeholder-slate-400 focus:outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="h-10 w-10 rounded-full bg-[#2F6BFF] hover:bg-[#1E56DF] active:bg-[#1845bb] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#2F6BFF]/30 transition-transform hover:scale-105"
+                aria-label="Search resources"
               >
-                <Compass className="h-4 w-4" />
-                <span>Explore Campus Resources</span>
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+          </div>
 
-              {user ? (
-                <Link
-                  href={
-                    user.role === "owner"
-                      ? "/owner/queue"
-                      : user.role === "manager"
-                      ? "/manager/checkin"
-                      : user.role === "admin"
-                      ? "/admin/audit"
-                      : "/bookings"
-                  }
-                  className="px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm transition flex items-center gap-2 shadow-md hover:-translate-y-0.5"
-                >
-                  <span>Go to My Dashboard ({user.role})</span>
-                </Link>
+          {/* Center Column: 3D Element with floating glass chips */}
+          <div className="lg:col-span-4 relative flex items-center justify-center py-4 sm:py-0">
+            <div className="relative w-full max-w-sm sm:max-w-md">
+              {!imgError ? (
+                <img
+                  src="/hero-campus.png"
+                  alt="3D Campus Illustration"
+                  onError={() => setImgError(true)}
+                  className="w-full h-auto object-contain drop-shadow-2xl animate-float select-none pointer-events-none"
+                />
               ) : (
-                <Link
-                  href="/login"
-                  className="px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm transition flex items-center gap-2 shadow-md hover:-translate-y-0.5"
-                >
-                  <Lock className="h-4 w-4 text-slate-400" />
-                  <span>Demo Logins (1-Click Switcher)</span>
-                </Link>
+                /* Pure CSS 3D fallback if image generation is missing */
+                <div className="relative w-72 h-72 mx-auto [perspective:1000px] flex items-center justify-center animate-float">
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#2F6BFF]/20 to-sky-100/60 [transform:rotateX(20deg)_rotateY(-15deg)] shadow-2xl border border-white" />
+                  <div className="relative z-10 p-6 rounded-2xl bg-white/90 backdrop-blur-md border border-white shadow-xl text-center">
+                    <Layers className="h-12 w-12 text-[#2F6BFF] mx-auto mb-2" />
+                    <div className="font-bold text-[#0F1E4D] text-sm">Campus Facility Hub</div>
+                  </div>
+                </div>
               )}
-            </div>
 
-            {/* Quick stats / Highlights */}
-            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto text-left">
-              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
-                <div className="text-base font-bold text-white flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                  Safety Verification
+              {/* Floating Glass Chips around 3D Campus */}
+              <div className="absolute top-2 left-0 sm:-left-2 bg-white/90 backdrop-blur-md border border-white/90 px-3 py-1.5 rounded-2xl shadow-[0_8px_20px_rgba(47,107,255,0.1)] flex items-center gap-2 text-xs font-bold text-[#0F1E4D] animate-float-slow">
+                <div className="h-6 w-6 rounded-lg bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center">
+                  <FlaskConical className="h-3.5 w-3.5" />
                 </div>
-                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  Required credentials verified by certified lab managers before access.
-                </div>
+                <span>Labs</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
-                <div className="text-base font-bold text-white flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-indigo-400" />
-                  Zero Conflicts
+              <div className="absolute top-6 right-0 sm:-right-2 bg-white/90 backdrop-blur-md border border-white/90 px-3 py-1.5 rounded-2xl shadow-[0_8px_20px_rgba(47,107,255,0.1)] flex items-center gap-2 text-xs font-bold text-[#0F1E4D] animate-float">
+                <div className="h-6 w-6 rounded-lg bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center">
+                  <Cog className="h-3.5 w-3.5" />
                 </div>
-                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  Database transactions prevent double bookings with suggested alternatives.
-                </div>
+                <span>Equipment</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
-                <div className="text-base font-bold text-white flex items-center gap-2">
-                  <ClipboardCheck className="h-4 w-4 text-amber-400" />
-                  Condition Tracking
+              <div className="absolute bottom-4 right-2 sm:right-6 bg-white/90 backdrop-blur-md border border-white/90 px-3 py-1.5 rounded-2xl shadow-[0_8px_20px_rgba(47,107,255,0.1)] flex items-center gap-2 text-xs font-bold text-[#0F1E4D] animate-float-slow">
+                <div className="h-6 w-6 rounded-lg bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center">
+                  <DoorOpen className="h-3.5 w-3.5" />
                 </div>
-                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  Check-in and return photos & ratings detect damage or deterioration instantly.
-                </div>
+                <span>Spaces</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 backdrop-blur transition-all">
-                <div className="text-base font-bold text-white flex items-center gap-2">
-                  <ScrollText className="h-4 w-4 text-purple-400" />
-                  Audit Trail
-                </div>
-                <div className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  Append-only immutable record of every approval, rejection, and condition change.
-                </div>
+              <div className="hidden sm:block absolute -bottom-3 left-4 text-[11px] font-semibold text-slate-400 italic">
+                More resources. More possibilities &rarr;
               </div>
             </div>
+          </div>
+
+          {/* Right Column: "A smarter way to use campus resources" Card */}
+          <div className="lg:col-span-3">
+            <GlassCard className="p-6 space-y-6 shadow-xl" hoverEffect>
+              <div>
+                <h3 className="text-base font-extrabold text-[#0F1E4D] leading-snug">
+                  A smarter way to use campus resources
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Verified availability across departments.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {/* Labs Row */}
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-xl bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center shrink-0">
+                      <FlaskConical className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#0F1E4D]">Labs</div>
+                      <div className="text-[10px] text-slate-400">Cleanrooms & Bio</div>
+                    </div>
+                  </div>
+                  <span className="text-xs font-extrabold text-[#0F1E4D]">
+                    {isLoading ? "..." : `${labCount}+ Available`}
+                  </span>
+                </div>
+
+                {/* Equipment Row */}
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-xl bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center shrink-0">
+                      <Cog className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#0F1E4D]">Equipment</div>
+                      <div className="text-[10px] text-slate-400">Printers & Scopes</div>
+                    </div>
+                  </div>
+                  <span className="text-xs font-extrabold text-[#0F1E4D]">
+                    {isLoading ? "..." : `${equipmentCount}+ Available`}
+                  </span>
+                </div>
+
+                {/* Spaces Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-xl bg-[#EEF4FF] text-[#2F6BFF] flex items-center justify-center shrink-0">
+                      <DoorOpen className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#0F1E4D]">Spaces</div>
+                      <div className="text-[10px] text-slate-400">Studios & Rooms</div>
+                    </div>
+                  </div>
+                  <span className="text-xs font-extrabold text-[#0F1E4D]">
+                    {isLoading ? "..." : `${spacesCount}+ Available`}
+                  </span>
+                </div>
+              </div>
+
+              <PillButton href="/resources" variant="primary" showArrow className="w-full">
+                Explore Resources
+              </PillButton>
+            </GlassCard>
           </div>
         </section>
 
-        {/* 5-Minute Judge Tour Section */}
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              5-Minute Evaluation Walkthrough
-            </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-xl mx-auto">
-              Follow this recommended journey to experience the end-to-end lifecycle across roles.
-            </p>
+        {/* EXPLORE BY CATEGORY SECTION */}
+        <section className="space-y-4">
+          <SectionHeader
+            icon={<Layers className="h-4 w-4" />}
+            title="Explore by Category"
+            subtitle="Find what you need, when you need it."
+            viewAllHref="/resources"
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
+            {[
+              {
+                id: "lab",
+                label: "Laboratories",
+                count: labCount,
+                icon: FlaskConical,
+              },
+              {
+                id: "testing",
+                label: "Equipment",
+                count: equipmentCount,
+                icon: Cog,
+              },
+              {
+                id: "room",
+                label: "Spaces",
+                count: spacesCount,
+                icon: DoorOpen,
+              },
+              {
+                id: "makerspace",
+                label: "Makerspace",
+                count: makerspaceCount,
+                icon: Layers,
+              },
+              {
+                id: "computer",
+                label: "Computers & IT",
+                count: computeCount,
+                icon: Cpu,
+              },
+            ].map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/resources?category=${cat.id}`}
+                  className="group"
+                >
+                  <GlassCard
+                    className="p-4 sm:p-5 h-full flex flex-col justify-between"
+                    hoverEffect
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="h-10 w-10 rounded-2xl bg-[#EEF4FF] group-hover:bg-[#2F6BFF] text-[#2F6BFF] group-hover:text-white flex items-center justify-center transition-colors duration-200 shadow-sm">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-slate-300 group-hover:text-[#2F6BFF] group-hover:translate-x-1 transition-all" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-[#0F1E4D] group-hover:text-[#2F6BFF] transition-colors">
+                        {cat.label}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {isLoading ? "..." : `${cat.count}+ resources`}
+                      </p>
+                    </div>
+                  </GlassCard>
+                </Link>
+              );
+            })}
           </div>
+        </section>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 relative group hover:border-indigo-600/50 transition">
-              <div className="h-8 w-8 rounded-lg bg-indigo-950 border border-indigo-700/60 text-indigo-400 flex items-center justify-center font-bold text-xs mb-4">
-                1
-              </div>
-              <h3 className="text-base font-semibold text-white mb-2">
-                Discovery & Eligibility Engine
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                Log in as <span className="text-indigo-300 font-mono">student.b</span>. Attempt to book the Ultimaker 3D Printer. Notice the eligibility engine detects a missing Safety Certification, guides you to upload it, and records reasons.
-              </p>
-              <Link
-                href="/resources"
-                className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
-              >
-                <span>Browse equipment</span>
-                <ArrowRight className="h-3 w-3" />
-              </Link>
+        {/* POPULAR RESOURCES & HOW IT WORKS SECTION */}
+        <section className="space-y-4">
+          <SectionHeader
+            icon={<Star className="h-4 w-4" />}
+            title="Popular Resources"
+            subtitle="Most booked and highly rated resources on campus."
+            viewAllHref="/resources"
+          />
+
+          <div className="grid lg:grid-cols-12 gap-6 items-start">
+            {/* Left 8 Cols: 4 Real Resource Cards */}
+            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-4 sm:gap-5">
+              {isLoading ? (
+                [1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="h-72 rounded-3xl bg-white/60 border border-white animate-pulse"
+                  />
+                ))
+              ) : resources.length === 0 ? (
+                <div className="col-span-2 p-8 text-center text-xs text-slate-400">
+                  No resources currently listed.
+                </div>
+              ) : (
+                resources.slice(0, 4).map((res) => {
+                  const hasPhoto = res.photos && res.photos.length > 0;
+                  return (
+                    <GlassCard
+                      key={res._id}
+                      className="overflow-hidden flex flex-col justify-between group hover:[transform:perspective(1000px)_rotateX(2deg)_rotateY(-1deg)] motion-reduce:hover:transform-none transition-all duration-300"
+                      hoverEffect
+                    >
+                      <div>
+                        {/* Photo Banner with Available Badge */}
+                        <div className="relative h-44 w-full bg-slate-100 overflow-hidden">
+                          {hasPhoto ? (
+                            <img
+                              src={res.photos[0]}
+                              alt={res.title}
+                              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="h-full w-full bg-gradient-to-br from-blue-100 via-indigo-50 to-sky-100 flex items-center justify-center text-[#2F6BFF]">
+                              {getCategoryIcon(res.category)}
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+
+                          {/* Green Pill Available Badge */}
+                          <div className="absolute top-3 left-3">
+                            <StatusBadge status="available" />
+                          </div>
+                        </div>
+
+                        {/* Resource Info */}
+                        <div className="p-4 sm:p-5 space-y-2">
+                          <h3 className="text-sm font-bold text-[#0F1E4D] group-hover:text-[#2F6BFF] transition-colors line-clamp-1">
+                            {res.title}
+                          </h3>
+
+                          <div className="flex items-center gap-1.5 text-xs text-slate-500 truncate">
+                            <MapPin className="h-3.5 w-3.5 text-[#2F6BFF] shrink-0" />
+                            <span className="truncate">{res.location}</span>
+                          </div>
+
+                          <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span className="capitalize">{res.category}</span>
+                            <span>Max {res.maxDurationHours}h</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card Footer: Book Now PillButton */}
+                      <div className="p-4 sm:p-5 pt-0">
+                        <PillButton
+                          href={`/resources/${res._id}`}
+                          variant="secondary"
+                          size="sm"
+                          showArrow
+                          className="w-full"
+                        >
+                          Book Now
+                        </PillButton>
+                      </div>
+                    </GlassCard>
+                  );
+                })
+              )}
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 relative group hover:border-indigo-600/50 transition">
-              <div className="h-8 w-8 rounded-lg bg-blue-950 border border-blue-700/60 text-blue-400 flex items-center justify-center font-bold text-xs mb-4">
-                2
-              </div>
-              <h3 className="text-base font-semibold text-white mb-2">
-                Approval Queue & Quotas
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                Switch to <span className="text-blue-300 font-mono">owner.eng</span>. Review the pending queue with eligibility and fairness snapshots. Approve or waitlist with a mandatory recorded reason.
-              </p>
-              <Link
-                href="/login"
-                className="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1"
-              >
-                <span>Switch to Owner</span>
-                <ArrowRight className="h-3 w-3" />
-              </Link>
-            </div>
+            {/* Right 4 Cols: "How It Works" + "Verified & Safe" Cards */}
+            <div className="lg:col-span-4 space-y-4">
+              {/* How It Works Card */}
+              <GlassCard className="p-6 space-y-5 shadow-xl">
+                <div>
+                  <h3 className="text-base font-extrabold text-[#0F1E4D]">
+                    How It Works
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Streamlined booking in four easy steps.
+                  </p>
+                </div>
 
-            <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 relative group hover:border-indigo-600/50 transition">
-              <div className="h-8 w-8 rounded-lg bg-amber-950 border border-amber-700/60 text-amber-400 flex items-center justify-center font-bold text-xs mb-4">
-                3
-              </div>
-              <h3 className="text-base font-semibold text-white mb-2">
-                Check-in, Return & Audit
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                Log in as <span className="text-amber-300 font-mono">manager</span>. Perform check-in inspection, then return condition rating comparison. Flag damage incident, inspect advisory AI summary, and review the immutable timeline.
-              </p>
-              <Link
-                href="/login"
-                className="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1"
-              >
-                <span>Switch to Manager</span>
-                <ArrowRight className="h-3 w-3" />
-              </Link>
+                <div className="space-y-4">
+                  {[
+                    {
+                      step: "1",
+                      title: "Find",
+                      desc: "Search and explore available campus resources.",
+                      icon: Search,
+                    },
+                    {
+                      step: "2",
+                      title: "Request",
+                      desc: "Send a booking request with your project details.",
+                      icon: FileText,
+                    },
+                    {
+                      step: "3",
+                      title: "Approve",
+                      desc: "Get confirmation from the owner and facility manager.",
+                      icon: UserCheck,
+                    },
+                    {
+                      step: "4",
+                      title: "Use",
+                      desc: "Access the resource safely and complete your work.",
+                      icon: Zap,
+                    },
+                  ].map((item) => {
+                    const StepIcon = item.icon;
+                    return (
+                      <div key={item.step} className="flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-full bg-[#EEF4FF] text-[#2F6BFF] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <StepIcon className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-[#0F1E4D]">
+                            {item.step}. {item.title}
+                          </div>
+                          <div className="text-[11px] text-slate-500 leading-snug">
+                            {item.desc}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 text-center">
+                  <span className="text-xs font-semibold text-[#2F6BFF] italic">
+                    Simple &bull; Safe &bull; Sustainable
+                  </span>
+                </div>
+              </GlassCard>
+
+              {/* Verified & Safe Card */}
+              <GlassCard className="p-5 flex items-center gap-3.5 shadow-md">
+                <div className="h-10 w-10 rounded-2xl bg-[#E6F9F0] text-[#059669] flex items-center justify-center shrink-0">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#0F1E4D]">
+                    Verified & Safe
+                  </h4>
+                  <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
+                    All resources are verified, with proper approvals and safety checks.
+                  </p>
+                </div>
+              </GlassCard>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-slate-900 py-8 bg-slate-950 text-center text-xs text-slate-500">
+      {/* FOOTER matching light clean design */}
+      <footer className="mt-16 border-t border-white/80 bg-white/60 backdrop-blur-md py-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>AccessHub &copy; 2026. All campus demo data is fictional.</div>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Next.js App Router</span>
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-6 rounded-lg bg-[#2F6BFF] flex items-center justify-center text-white">
+              <Layers className="h-3.5 w-3.5" />
+            </div>
+            <span className="font-bold text-[#0F1E4D]">AccessHub</span>
             <span>&bull;</span>
-            <span>MongoDB Atlas</span>
-            <span>&bull;</span>
-            <span>Auth.js RBAC</span>
-            <span>&bull;</span>
-            <span>Zod</span>
+            <span>Campus Resource Sharing Platform</span>
+          </div>
+
+          <div className="flex items-center gap-5 text-slate-500">
+            <Link href="/resources" className="hover:text-[#2F6BFF] transition-colors">
+              Explore
+            </Link>
+            <Link href="/bookings" className="hover:text-[#2F6BFF] transition-colors">
+              Bookings
+            </Link>
+            <Link href="/credentials" className="hover:text-[#2F6BFF] transition-colors">
+              Credentials
+            </Link>
+            <Link href="/login" className="hover:text-[#2F6BFF] transition-colors">
+              Sign In
+            </Link>
           </div>
         </div>
       </footer>

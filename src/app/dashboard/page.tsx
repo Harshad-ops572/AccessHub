@@ -35,12 +35,12 @@ export default function DashboardRedirectPage() {
   }, [session, status, router]);
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center space-y-3">
-          <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-neutral-400">Directing to role workspace...</p>
+          <div className="w-8 h-8 border-2 border-[#2F6BFF] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-slate-500 font-medium">Directing to role workspace...</p>
         </div>
       </div>
     </div>

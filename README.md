@@ -118,15 +118,15 @@ The suite runs 5 comprehensive integration tests covering all critical paths:
 
 ## 👥 Personas & Credentials Summary
 
-| Email | Password | Role | Campus Department |
-|:---|:---|:---|:---|
-| `admin@campus.test` | `password123` | **Admin** | Campus Operations |
-| `owner.eng@campus.test` | `password123` | **Owner** | Mechanical & Robotics Lab |
-| `owner.media@campus.test` | `password123` | **Owner** | Media Arts & Production |
-| `manager@campus.test` | `password123` | **Manager** | Central Facility Check-in Desk |
-| `student.a@campus.test` | `password123` | **User** | Bioengineering (Clean Record) |
-| `student.b@campus.test` | `password123` | **User** | Robotics (Missing Credentials) |
-| `student.c@campus.test` | `password123` | **User** | Computer Science (High Quota User) |
+| Email | Password | Display Name | Role | Campus Department |
+|:---|:---|:---|:---|:---|
+| `admin@campus.test` | `password123` | **Admin** | Admin | Campus Academic Affairs |
+| `owner.eng@campus.test` | `password123` | **Owner (Engineering)** | Owner | Mechanical & Robotics Eng |
+| `owner.media@campus.test` | `password123` | **Owner (Media)** | Owner | Media & Digital Arts |
+| `manager@campus.test` | `password123` | **Manager** | Manager | Central Makerspace Operations |
+| `student.a@campus.test` | `password123` | **Student A** | User | Computer Science (Eligible) |
+| `student.b@campus.test` | `password123` | **Student B** | User | Biomedical Engineering (Missing Cred) |
+| `student.c@campus.test` | `password123` | **Student C** | User | Electrical Engineering (Quota Limit) |
 
 ---
 

@@ -87,27 +87,27 @@ export default function OwnerQueuePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-900">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/70">
           <div>
-            <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[#2F6BFF] text-xs font-bold uppercase tracking-wider mb-1">
               <Inbox className="h-4 w-4" />
               <span>Owner Approval Queue</span>
             </div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl font-extrabold text-[#0F1E4D] tracking-tight">
               Review Reservation Requests
             </h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Verify research purposes, inspect student safety credentials, and approve or waitlist slots with auditable reasons.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
-              <strong className="text-white">{pendingBookings.length}</strong> requests pending review
+            <span className="px-4 py-2 rounded-full bg-white/80 border border-slate-200 text-xs text-slate-600 shadow-xs">
+              <strong className="text-[#0F1E4D] font-bold">{pendingBookings.length}</strong> requests pending review
             </span>
           </div>
         </div>
@@ -115,19 +115,19 @@ export default function OwnerQueuePage() {
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-40 rounded-2xl bg-slate-900/60 border border-slate-800 animate-pulse" />
+              <div key={i} className="h-40 rounded-3xl bg-white/70 border border-slate-200/60 animate-pulse shadow-xs" />
             ))}
           </div>
         ) : pendingBookings.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl bg-slate-900/40 border border-slate-800 max-w-md mx-auto">
-            <CheckCircle2 className="h-10 w-10 text-emerald-400 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-white mb-1">All caught up!</h3>
-            <p className="text-xs text-slate-400 mb-4">
+          <div className="p-12 text-center rounded-3xl bg-white/80 border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-md mx-auto">
+            <CheckCircle2 className="h-10 w-10 text-emerald-500 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-[#0F1E4D] mb-1">All caught up!</h3>
+            <p className="text-xs text-slate-500 mb-4">
               There are no pending equipment reservation requests awaiting your review.
             </p>
             <Link
               href="/owner/resources"
-              className="text-xs font-semibold text-indigo-400 hover:underline"
+              className="text-xs font-bold text-[#2F6BFF] hover:underline"
             >
               View your listed equipment &rarr;
             </Link>
@@ -142,7 +142,7 @@ export default function OwnerQueuePage() {
               return (
                 <div
                   key={b._id}
-                  className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition shadow-xl"
+                  className="p-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 hover:border-slate-300 transition shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
                 >
                   <div className="grid lg:grid-cols-12 gap-6 items-start">
                     {/* Left Info: Resource & Requester */}
@@ -150,17 +150,17 @@ export default function OwnerQueuePage() {
                       {/* Resource Title & Slot */}
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-indigo-950 text-indigo-300 border border-indigo-800">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-[#2F6BFF] border border-blue-200">
                             {b.resourceId?.category || "Equipment"}
                           </span>
-                          <h3 className="text-lg font-bold text-white">
+                          <h3 className="text-lg font-bold text-[#0F1E4D]">
                             {b.resourceId?.title}
                           </h3>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300 mt-1">
-                          <span className="flex items-center gap-1 font-medium text-indigo-400">
-                            <Calendar className="h-3.5 w-3.5" />
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+                          <span className="flex items-center gap-1 font-semibold text-[#0F1E4D]">
+                            <Calendar className="h-3.5 w-3.5 text-[#2F6BFF]" />
                             {start.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" })}
                           </span>
                           <span>&bull;</span>
@@ -175,35 +175,35 @@ export default function OwnerQueuePage() {
                       </div>
 
                       {/* Requester Profile Snapshot */}
-                      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 text-xs">
+                      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <User className="h-4 w-4 text-indigo-400" />
-                            <span className="font-semibold text-white">{b.userId?.name}</span>
-                            <span className="text-slate-500 font-mono">({b.userId?.email})</span>
+                            <User className="h-4 w-4 text-[#2F6BFF]" />
+                            <span className="font-bold text-[#0F1E4D]">{b.userId?.name}</span>
+                            <span className="text-slate-400 font-mono">({b.userId?.email})</span>
                           </div>
-                          <span className="text-[11px] text-slate-400">
-                            Dept: <strong className="text-slate-200">{b.userId?.department}</strong>
+                          <span className="text-[11px] text-slate-500">
+                            Dept: <strong className="text-slate-800">{b.userId?.department}</strong>
                           </span>
                         </div>
 
                         {/* Quota & Strikes Breakdown */}
-                        <div className="flex items-center gap-4 text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
+                        <div className="flex items-center gap-4 text-[11px] text-slate-500 pt-2 border-t border-slate-200/70">
                           <span>
                             Weekly Quota:{" "}
-                            <strong className="text-slate-200">
+                            <strong className="text-slate-800">
                               {b.userId?.weeklyHoursUsed || 0} / 8 hrs
                             </strong>
                           </span>
                           <span>&bull;</span>
                           <span>
                             Penalty Strikes:{" "}
-                            <strong className={b.userId?.strikes > 0 ? "text-red-400" : "text-emerald-400"}>
+                            <strong className={b.userId?.strikes > 0 ? "text-red-600" : "text-emerald-600"}>
                               {b.userId?.strikes || 0}
                             </strong>
                           </span>
                           <span>&bull;</span>
-                          <span className="flex items-center gap-1 text-emerald-400">
+                          <span className="flex items-center gap-1 text-emerald-600 font-medium">
                             <ShieldCheck className="h-3.5 w-3.5" />
                             <span>Safety Verified</span>
                           </span>
@@ -212,22 +212,22 @@ export default function OwnerQueuePage() {
 
                       {/* Purpose */}
                       <div>
-                        <div className="text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-1">
+                        <div className="text-[11px] uppercase tracking-wider font-bold text-slate-500 mb-1">
                           Research / Project Purpose
                         </div>
-                        <p className="text-xs text-slate-300 leading-relaxed bg-slate-800/40 p-3 rounded-lg border border-slate-700/50">
+                        <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-200/70">
                           &ldquo;{b.purpose}&rdquo;
                         </p>
                       </div>
                     </div>
 
                     {/* Right Actions Column */}
-                    <div className="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:pl-6 border-t lg:border-t-0 lg:border-l border-slate-800 space-y-3">
+                    <div className="lg:col-span-4 flex flex-col justify-between h-full pt-4 lg:pt-0 lg:pl-6 border-t lg:border-t-0 lg:border-l border-slate-100 space-y-3">
                       <div>
-                        <div className="text-xs font-semibold text-slate-300 mb-2">
+                        <div className="text-xs font-bold text-[#0F1E4D] mb-1">
                           Owner Decision Control
                         </div>
-                        <p className="text-[11px] text-slate-400 mb-4">
+                        <p className="text-[11px] text-slate-500 mb-4">
                           All decisions require a recorded reason for full audit transparency.
                         </p>
                       </div>
@@ -236,7 +236,7 @@ export default function OwnerQueuePage() {
                         {/* Approve */}
                         <button
                           onClick={() => handleOpenDecisionModal(b, "approve")}
-                          className="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20"
+                          className="w-full py-2.5 px-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-xs"
                         >
                           <CheckCircle2 className="h-4 w-4" />
                           <span>Approve Reservation</span>
@@ -245,7 +245,7 @@ export default function OwnerQueuePage() {
                         {/* Waitlist */}
                         <button
                           onClick={() => handleOpenDecisionModal(b, "waitlist")}
-                          className="w-full py-2 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-md shadow-amber-600/20"
+                          className="w-full py-2.5 px-3 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-xs"
                         >
                           <Clock className="h-4 w-4" />
                           <span>Waitlist Request</span>
@@ -254,7 +254,7 @@ export default function OwnerQueuePage() {
                         {/* Reject */}
                         <button
                           onClick={() => handleOpenDecisionModal(b, "reject")}
-                          className="w-full py-2 px-3 rounded-lg bg-red-600/90 hover:bg-red-500 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5"
+                          className="w-full py-2.5 px-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-xs"
                         >
                           <XCircle className="h-4 w-4" />
                           <span>Reject Request</span>
@@ -270,35 +270,35 @@ export default function OwnerQueuePage() {
 
         {/* Decision Modal */}
         {selectedBooking && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-            <div className="w-full max-w-lg p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+            <div className="w-full max-w-lg p-6 rounded-3xl bg-white border border-slate-200 shadow-2xl space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   {decisionType === "approve" ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
                   ) : decisionType === "waitlist" ? (
-                    <Clock className="h-5 w-5 text-amber-400" />
+                    <Clock className="h-5 w-5 text-amber-500" />
                   ) : (
-                    <XCircle className="h-5 w-5 text-red-400" />
+                    <XCircle className="h-5 w-5 text-red-600" />
                   )}
-                  <h3 className="text-base font-bold text-white capitalize">
+                  <h3 className="text-base font-bold text-[#0F1E4D] capitalize">
                     {decisionType} Reservation Request
                   </h3>
                 </div>
                 <button
                   onClick={() => setSelectedBooking(null)}
-                  className="text-slate-400 hover:text-white text-xs"
+                  className="text-slate-400 hover:text-slate-700 text-xs font-semibold"
                 >
                   Close
                 </button>
               </div>
 
               <div>
-                <p className="text-xs text-slate-300 mb-2">
-                  Action for: <strong className="text-white">{selectedBooking.resourceId?.title}</strong> by{" "}
-                  <strong className="text-white">{selectedBooking.userId?.name}</strong>.
+                <p className="text-xs text-slate-600 mb-2">
+                  Action for: <strong className="text-[#0F1E4D]">{selectedBooking.resourceId?.title}</strong> by{" "}
+                  <strong className="text-[#0F1E4D]">{selectedBooking.userId?.name}</strong>.
                 </p>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                   Mandatory Decision Reason (shown in student timeline & audit log):
                 </label>
                 <textarea
@@ -307,21 +307,21 @@ export default function OwnerQueuePage() {
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Explain why this request is being approved, rejected, or waitlisted..."
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-[#2F6BFF]"
                 />
               </div>
 
               {actionError && (
-                <div className="p-3 rounded-lg bg-red-950/50 border border-red-800 text-red-200 text-xs">
+                <div className="p-3 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs">
                   {actionError}
                 </div>
               )}
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setSelectedBooking(null)}
-                  className="px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition"
+                  className="px-4 py-2 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-800 transition"
                 >
                   Cancel
                 </button>
@@ -329,16 +329,16 @@ export default function OwnerQueuePage() {
                   type="button"
                   disabled={submitting || !reason.trim()}
                   onClick={handleConfirmDecision}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold text-white transition flex items-center gap-1.5 disabled:opacity-50 ${
+                  className={`px-5 py-2 rounded-full text-xs font-bold text-white transition flex items-center gap-1.5 shadow-xs disabled:opacity-50 ${
                     decisionType === "approve"
-                      ? "bg-emerald-600 hover:bg-emerald-500"
+                      ? "bg-emerald-600 hover:bg-emerald-700"
                       : decisionType === "waitlist"
-                      ? "bg-amber-600 hover:bg-amber-500"
-                      : "bg-red-600 hover:bg-red-500"
+                      ? "bg-amber-500 hover:bg-amber-600"
+                      : "bg-red-600 hover:bg-red-700"
                   }`}
                 >
                   {submitting ? (
-                    <span className="inline-block h-3.5 w-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                    <span className="inline-block h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <span>Confirm {decisionType}</span>
                   )}

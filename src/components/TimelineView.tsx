@@ -32,46 +32,46 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
   const getActionColor = (action: string) => {
     switch (action) {
       case "BOOKING_CREATED":
-        return "bg-blue-500/20 text-blue-400 border-blue-500/40";
+        return "bg-blue-50 text-[#2F6BFF] border-blue-200";
       case "BOOKING_APPROVED":
       case "CREDENTIAL_VERIFIED":
-        return "bg-emerald-500/20 text-emerald-400 border-emerald-500/40";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       case "BOOKING_REJECTED":
       case "CREDENTIAL_REJECTED":
-        return "bg-red-500/20 text-red-400 border-red-500/40";
+        return "bg-red-50 text-red-600 border-red-200";
       case "BOOKING_CHECKED_IN":
-        return "bg-cyan-500/20 text-cyan-400 border-cyan-500/40";
+        return "bg-cyan-50 text-cyan-700 border-cyan-200";
       case "BOOKING_RETURNED":
-        return "bg-teal-500/20 text-teal-400 border-teal-500/40";
+        return "bg-teal-50 text-teal-700 border-teal-200";
       case "BOOKING_MARKED_OVERDUE":
       case "INCIDENT_AUTOMATICALLY_LOGGED":
-        return "bg-amber-500/20 text-amber-400 border-amber-500/40";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "INCIDENT_RESOLVED":
-        return "bg-purple-500/20 text-purple-400 border-purple-500/40";
+        return "bg-purple-50 text-purple-700 border-purple-200";
       default:
-        return "bg-neutral-800 text-neutral-300 border-neutral-700";
+        return "bg-slate-100 text-slate-700 border-slate-200";
     }
   };
 
   const getRoleBadge = (role: string) => {
     switch (role) {
       case "admin":
-        return "bg-purple-950/80 text-purple-300 border-purple-800";
+        return "bg-purple-50 text-purple-700 border-purple-200";
       case "owner":
-        return "bg-blue-950/80 text-blue-300 border-blue-800";
+        return "bg-blue-50 text-blue-700 border-blue-200";
       case "manager":
-        return "bg-amber-950/80 text-amber-300 border-amber-800";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "system":
-        return "bg-emerald-950/80 text-emerald-300 border-emerald-800";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       default:
-        return "bg-neutral-800 text-neutral-300 border-neutral-700";
+        return "bg-slate-100 text-slate-600 border-slate-200";
     }
   };
 
   if (isLoading) {
     return (
-      <div className="py-8 text-center text-xs text-neutral-500 flex items-center justify-center gap-2">
-        <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      <div className="py-8 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+        <div className="w-4 h-4 border-2 border-[#2F6BFF] border-t-transparent rounded-full animate-spin" />
         Loading immutable audit timeline...
       </div>
     );
@@ -79,7 +79,7 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
 
   if (logs.length === 0) {
     return (
-      <div className="py-6 text-center text-xs text-neutral-500 border border-neutral-800 rounded-xl bg-neutral-900/50">
+      <div className="py-6 text-center text-xs text-slate-500 border border-slate-200 rounded-2xl bg-white/60">
         No state changes recorded yet for this booking.
       </div>
     );
@@ -87,18 +87,18 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
-        <h4 className="text-sm font-semibold text-white flex items-center gap-2">
-          <Lock className="w-4 h-4 text-emerald-400" />
+      <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h4 className="text-sm font-bold text-[#0F1E4D] flex items-center gap-2">
+          <Lock className="w-4 h-4 text-[#2F6BFF]" />
           Immutable Booking Lifecycle Audit Trail
         </h4>
-        <span className="text-[11px] text-neutral-400 flex items-center gap-1 font-mono">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+        <span className="text-[11px] text-slate-500 flex items-center gap-1 font-mono">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
           Append-Only ({logs.length} entries)
         </span>
       </div>
 
-      <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-neutral-800">
+      <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
         {logs.map((log) => {
           const dateStr = new Date(log.timestamp).toLocaleString(undefined, {
             month: "short",
@@ -110,9 +110,9 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
           return (
             <div key={log._id} className="relative group">
               {/* Stepper node circle */}
-              <div className="absolute -left-6 top-1 w-3 h-3 rounded-full border-2 border-neutral-900 bg-emerald-500 ring-2 ring-emerald-500/20 group-hover:scale-125 transition-transform" />
+              <div className="absolute -left-6 top-1.5 w-3 h-3 rounded-full border-2 border-white bg-[#2F6BFF] ring-2 ring-blue-500/20 group-hover:scale-125 transition-transform" />
 
-              <div className="bg-neutral-900/90 border border-neutral-800/80 rounded-xl p-3.5 hover:border-neutral-700 transition-colors">
+              <div className="bg-white/90 border border-slate-200/80 rounded-2xl p-4 hover:border-slate-300 transition-colors shadow-xs">
                 {/* Header: Action name + Timestamp + Actor */}
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
                     </span>
 
                     <span
-                      className={`text-[10px] font-medium px-2 py-0.5 rounded-full border uppercase ${getRoleBadge(
+                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border uppercase ${getRoleBadge(
                         log.actorRole
                       )}`}
                     >
@@ -133,19 +133,19 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
                     </span>
                   </div>
 
-                  <span className="text-[11px] text-neutral-500 font-mono flex items-center gap-1">
+                  <span className="text-[11px] text-slate-500 font-mono flex items-center gap-1">
                     <Clock className="w-3 h-3" /> {dateStr}
                   </span>
                 </div>
 
                 {/* State delta if present */}
                 {log.before && log.after && (log.before.status || log.after.status) && (
-                  <div className="mb-2 px-2.5 py-1 rounded-lg bg-neutral-950/60 border border-neutral-800/60 inline-flex items-center gap-2 text-xs font-mono">
-                    <span className="text-neutral-400">
+                  <div className="mb-2 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 inline-flex items-center gap-2 text-xs font-mono">
+                    <span className="text-slate-500">
                       {log.before.status || "initial"}
                     </span>
-                    <ArrowRight className="w-3 h-3 text-emerald-400" />
-                    <span className="font-semibold text-emerald-300">
+                    <ArrowRight className="w-3 h-3 text-[#2F6BFF]" />
+                    <span className="font-semibold text-[#0F1E4D]">
                       {log.after.status}
                     </span>
                   </div>
@@ -153,21 +153,21 @@ export function TimelineView({ bookingId }: TimelineViewProps) {
 
                 {/* Recorded Reason */}
                 {log.reason && (
-                  <p className="text-xs text-neutral-300 leading-relaxed bg-neutral-950/40 p-2.5 rounded-lg border border-neutral-800/40">
+                  <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200/60">
                     &quot;{log.reason}&quot;
                   </p>
                 )}
 
                 {/* Actor Info */}
-                <div className="mt-2.5 pt-2 border-t border-neutral-800/40 flex items-center justify-between text-[11px] text-neutral-500">
+                <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
                   <span className="flex items-center gap-1">
-                    <User className="w-3 h-3 text-neutral-400" />
+                    <User className="w-3 h-3 text-slate-400" />
                     Recorded by:{" "}
-                    <strong className="text-neutral-300 font-medium">
+                    <strong className="text-slate-800 font-medium">
                       {log.actorId?.name || (log.actorRole === "system" ? "Campus Automated Cron" : "Campus Staff")}
                     </strong>
                   </span>
-                  <span className="font-mono text-[10px] text-neutral-600 truncate max-w-[150px]">
+                  <span className="font-mono text-[10px] text-slate-400 truncate max-w-[150px]">
                     ID: {log._id}
                   </span>
                 </div>

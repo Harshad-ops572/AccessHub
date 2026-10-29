@@ -58,55 +58,55 @@ export default function AdminAuditPage() {
   const getActionStyle = (action: string) => {
     switch (action) {
       case "BOOKING_CREATED":
-        return "bg-blue-950/80 text-blue-400 border-blue-800";
+        return "bg-blue-50 text-[#2F6BFF] border-blue-200";
       case "BOOKING_APPROVED":
       case "CREDENTIAL_VERIFIED":
-        return "bg-emerald-950/80 text-emerald-400 border-emerald-800";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       case "BOOKING_REJECTED":
       case "CREDENTIAL_REJECTED":
-        return "bg-red-950/80 text-red-400 border-red-800";
+        return "bg-red-50 text-red-600 border-red-200";
       case "BOOKING_CHECKED_IN":
-        return "bg-cyan-950/80 text-cyan-400 border-cyan-800";
+        return "bg-cyan-50 text-cyan-700 border-cyan-200";
       case "BOOKING_RETURNED":
-        return "bg-teal-950/80 text-teal-400 border-teal-800";
+        return "bg-teal-50 text-teal-700 border-teal-200";
       case "BOOKING_MARKED_OVERDUE":
       case "INCIDENT_AUTOMATICALLY_LOGGED":
-        return "bg-amber-950/80 text-amber-400 border-amber-800";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "INCIDENT_RESOLVED":
-        return "bg-purple-950/80 text-purple-400 border-purple-800";
+        return "bg-purple-50 text-purple-700 border-purple-200";
       default:
-        return "bg-neutral-800 text-neutral-300 border-neutral-700";
+        return "bg-slate-100 text-slate-700 border-slate-200";
     }
   };
 
   const getRoleBadge = (role: string) => {
     switch (role) {
       case "admin":
-        return "bg-purple-900/60 text-purple-300 border-purple-700";
+        return "bg-purple-50 text-purple-700 border-purple-200";
       case "owner":
-        return "bg-blue-900/60 text-blue-300 border-blue-700";
+        return "bg-blue-50 text-blue-700 border-blue-200";
       case "manager":
-        return "bg-amber-900/60 text-amber-300 border-amber-700";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "system":
-        return "bg-emerald-900/60 text-emerald-300 border-emerald-700";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       default:
-        return "bg-neutral-800 text-neutral-300 border-neutral-700";
+        return "bg-slate-100 text-slate-700 border-slate-200";
     }
   };
 
   if (!user || user.role !== "admin") {
     return (
-      <div className="min-h-screen bg-neutral-900 text-neutral-100">
+      <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <Lock className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Administrator Access Required</h1>
-          <p className="text-neutral-400 mb-6">
+          <Lock className="w-16 h-16 text-purple-500 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-[#0F1E4D] mb-2">Administrator Access Required</h1>
+          <p className="text-slate-500 mb-6">
             The immutable campus audit log contains sensitive cross-departmental operations and requires Administrator privileges.
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 font-semibold text-white transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-purple-600 hover:bg-purple-700 font-semibold text-white transition-colors shadow-xs"
           >
             Sign in as Campus Admin
           </Link>
@@ -116,7 +116,7 @@ export default function AdminAuditPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -124,17 +124,17 @@ export default function AdminAuditPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-950/80 text-purple-400 border border-purple-800">
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
                 Compliance & Accountability
               </span>
-              <span className="text-neutral-500">•</span>
-              <span className="text-xs text-neutral-400">Step 8 of Judge Walkthrough</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-xs text-slate-500 font-medium">Step 8 of Judge Walkthrough</span>
             </div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
-              <ScrollText className="w-8 h-8 text-purple-400" />
+            <h1 className="text-3xl font-extrabold text-[#0F1E4D] tracking-tight flex items-center gap-3">
+              <ScrollText className="w-8 h-8 text-purple-600" />
               Campus Audit Trail
             </h1>
-            <p className="text-neutral-400 text-sm mt-1">
+            <p className="text-slate-500 text-sm mt-1">
               Append-only, tamper-proof record of every booking state transition, condition inspection, approval reason, and incident resolution.
             </p>
           </div>
@@ -142,41 +142,41 @@ export default function AdminAuditPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/admin/users"
-              className="px-4 py-2 text-sm rounded-lg border border-neutral-700 bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 transition-colors flex items-center gap-2 font-medium"
+              className="px-4 py-2 text-xs rounded-full border border-slate-200 bg-white/80 hover:bg-slate-50 text-slate-700 transition-colors flex items-center gap-2 font-semibold shadow-xs"
             >
-              User Directory <ArrowRight className="w-4 h-4 text-neutral-400" />
+              User Directory <ArrowRight className="w-4 h-4 text-slate-400" />
             </Link>
           </div>
         </div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="p-4 rounded-xl bg-neutral-800/50 border border-neutral-700/80">
-            <span className="text-xs text-neutral-400 block mb-1">Total Audit Entries</span>
-            <span className="text-2xl font-extrabold text-white">{pagination.total}</span>
+          <div className="p-5 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <span className="text-xs text-slate-500 block mb-1 font-medium">Total Audit Entries</span>
+            <span className="text-2xl font-extrabold text-[#0F1E4D]">{pagination.total}</span>
           </div>
-          <div className="p-4 rounded-xl bg-neutral-800/50 border border-neutral-700/80">
-            <span className="text-xs text-neutral-400 block mb-1">Integrity Mode</span>
-            <span className="text-sm font-bold text-emerald-400 flex items-center gap-1.5 mt-1">
-              <ShieldCheck className="w-4 h-4" /> Append-Only Immutable
+          <div className="p-5 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <span className="text-xs text-slate-500 block mb-1 font-medium">Integrity Mode</span>
+            <span className="text-sm font-bold text-emerald-700 flex items-center gap-1.5 mt-1">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Append-Only Immutable
             </span>
           </div>
-          <div className="p-4 rounded-xl bg-neutral-800/50 border border-neutral-700/80">
-            <span className="text-xs text-neutral-400 block mb-1">State Machine Sync</span>
-            <span className="text-sm font-bold text-cyan-400 flex items-center gap-1.5 mt-1">
+          <div className="p-5 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <span className="text-xs text-slate-500 block mb-1 font-medium">State Machine Sync</span>
+            <span className="text-sm font-bold text-[#2F6BFF] flex items-center gap-1.5 mt-1">
               <Activity className="w-4 h-4" /> Real-time Polled
             </span>
           </div>
-          <div className="p-4 rounded-xl bg-neutral-800/50 border border-neutral-700/80">
-            <span className="text-xs text-neutral-400 block mb-1">Active Page</span>
-            <span className="text-sm font-bold text-neutral-300 mt-1 block">
+          <div className="p-5 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <span className="text-xs text-slate-500 block mb-1 font-medium">Active Page</span>
+            <span className="text-sm font-bold text-[#0F1E4D] mt-1 block">
               Page {page} of {pagination.pages || 1}
             </span>
           </div>
         </div>
 
         {/* Filters Toolbar */}
-        <div className="bg-neutral-800/60 border border-neutral-700/80 rounded-2xl p-4 mb-6 backdrop-blur flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div className="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-4 mb-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row gap-3 items-center justify-between">
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             {/* Action Filter */}
             <select
@@ -185,7 +185,7 @@ export default function AdminAuditPage() {
                 setActionFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-purple-500"
+              className="bg-slate-50 border border-slate-200 rounded-full px-3.5 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium"
             >
               <option value="">All Actions</option>
               <option value="BOOKING_CREATED">BOOKING_CREATED</option>
@@ -208,7 +208,7 @@ export default function AdminAuditPage() {
                 setRoleFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-purple-500"
+              className="bg-slate-50 border border-slate-200 rounded-full px-3.5 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium"
             >
               <option value="">All Roles</option>
               <option value="user">User / Student</option>
@@ -225,7 +225,7 @@ export default function AdminAuditPage() {
                 setEntityFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-purple-500"
+              className="bg-slate-50 border border-slate-200 rounded-full px-3.5 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium"
             >
               <option value="">All Entities</option>
               <option value="Booking">Booking</option>
@@ -244,7 +244,7 @@ export default function AdminAuditPage() {
                   setSearchQuery("");
                   setPage(1);
                 }}
-                className="text-xs text-purple-400 hover:text-purple-300 font-medium px-2 py-1"
+                className="text-xs text-purple-600 hover:text-purple-800 font-bold px-2.5 py-1"
               >
                 Reset
               </button>
@@ -253,7 +253,7 @@ export default function AdminAuditPage() {
 
           {/* Search box */}
           <div className="relative w-full md:w-64">
-            <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search reason or ID..."
@@ -262,7 +262,7 @@ export default function AdminAuditPage() {
                 setSearchQuery(e.target.value);
                 setPage(1);
               }}
-              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg pl-9 pr-3 py-2 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-purple-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-full pl-9 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         </div>
@@ -271,13 +271,13 @@ export default function AdminAuditPage() {
         {isLoading ? (
           <div className="py-20 text-center">
             <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm text-neutral-400">Loading audit records...</p>
+            <p className="text-sm text-slate-500">Loading audit records...</p>
           </div>
         ) : logs.length === 0 ? (
-          <div className="text-center py-16 bg-neutral-800/30 rounded-2xl border border-neutral-800">
-            <ScrollText className="w-12 h-12 text-neutral-600 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-neutral-300">No Records Found</h3>
-            <p className="text-xs text-neutral-500 max-w-sm mx-auto mt-1">
+          <div className="text-center py-16 bg-white/70 rounded-3xl border border-slate-200 shadow-xs">
+            <ScrollText className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-[#0F1E4D]">No Records Found</h3>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
               No audit actions matched your selected filters. Try broadening your criteria.
             </p>
           </div>
@@ -299,7 +299,7 @@ export default function AdminAuditPage() {
               return (
                 <div
                   key={log._id}
-                  className="bg-neutral-800/60 border border-neutral-700/70 hover:border-neutral-600 rounded-xl p-4 transition-all duration-150"
+                  className="bg-white/85 backdrop-blur-md border border-slate-200/80 hover:border-slate-300 rounded-2xl p-4 transition-all shadow-xs"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2.5">
                     {/* Action & Entity Badges */}
@@ -312,7 +312,7 @@ export default function AdminAuditPage() {
                         {log.action}
                       </span>
 
-                      <span className="text-[11px] font-semibold text-neutral-400 bg-neutral-900/80 px-2 py-0.5 rounded-md border border-neutral-800">
+                      <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
                         {log.entityType}
                       </span>
 
@@ -326,12 +326,12 @@ export default function AdminAuditPage() {
                     </div>
 
                     {/* Timestamp & Record ID */}
-                    <div className="flex items-center gap-3 text-xs text-neutral-400 font-mono">
+                    <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
                       <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-neutral-500" />
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
                         {formattedDate} {formattedTime}
                       </span>
-                      <span className="text-neutral-600 text-[11px] truncate max-w-[120px]" title={log._id}>
+                      <span className="text-slate-400 text-[11px] truncate max-w-[120px]" title={log._id}>
                         #{log._id.slice(-8)}
                       </span>
                     </div>
@@ -339,12 +339,12 @@ export default function AdminAuditPage() {
 
                   {/* State Change Badges */}
                   {log.before && log.after && (log.before.status || log.after.status) && (
-                    <div className="mb-2 px-3 py-1.5 rounded-lg bg-neutral-950/70 border border-neutral-800/70 inline-flex items-center gap-2 text-xs font-mono">
-                      <span className="text-neutral-400">
+                    <div className="mb-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/70 inline-flex items-center gap-2 text-xs font-mono">
+                      <span className="text-slate-500">
                         {log.before.status || "new"}
                       </span>
-                      <ArrowRight className="w-3 h-3 text-purple-400" />
-                      <span className="font-semibold text-purple-300">
+                      <ArrowRight className="w-3 h-3 text-[#2F6BFF]" />
+                      <span className="font-bold text-[#0F1E4D]">
                         {log.after.status}
                       </span>
                     </div>
@@ -352,25 +352,25 @@ export default function AdminAuditPage() {
 
                   {/* Recorded Justification / Reason */}
                   {log.reason && (
-                    <p className="text-xs text-neutral-200 bg-neutral-900/90 border border-neutral-800/80 rounded-lg p-2.5 mb-2 leading-relaxed">
+                    <p className="text-xs text-slate-700 bg-slate-50 border border-slate-200/70 rounded-xl p-2.5 mb-2 leading-relaxed">
                       &quot;{log.reason}&quot;
                     </p>
                   )}
 
                   {/* Actor details footer */}
-                  <div className="flex items-center justify-between text-[11px] text-neutral-500 pt-2 border-t border-neutral-800/60">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-100">
                     <div className="flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-neutral-400" />
+                      <User className="w-3.5 h-3.5 text-slate-400" />
                       <span>
                         Actor:{" "}
-                        <strong className="text-neutral-300">
+                        <strong className="text-slate-800">
                           {log.actorId?.name || (log.actorRole === "system" ? "Campus Automated Cron" : "Unknown")}
                         </strong>{" "}
                         {log.actorId?.email && `(${log.actorId.email})`}
                       </span>
                     </div>
 
-                    <div className="text-neutral-400 font-mono text-[11px]">
+                    <div className="text-slate-400 font-mono text-[11px]">
                       Target: {log.entityType} ID {log.entityId}
                     </div>
                   </div>
@@ -382,22 +382,22 @@ export default function AdminAuditPage() {
 
         {/* Pagination Controls */}
         {pagination.pages > 1 && (
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-neutral-800">
-            <span className="text-xs text-neutral-400">
+          <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
+            <span className="text-xs text-slate-500 font-medium">
               Showing page {page} of {pagination.pages}
             </span>
             <div className="flex items-center gap-2">
               <button
                 disabled={page <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-neutral-800 hover:bg-neutral-700 disabled:opacity-40 text-neutral-200 transition-colors flex items-center gap-1"
+                className="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 text-slate-700 transition-colors flex items-center gap-1 shadow-xs"
               >
                 <ChevronLeft className="w-3.5 h-3.5" /> Previous
               </button>
               <button
                 disabled={page >= pagination.pages}
                 onClick={() => setPage((p) => p + 1)}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-neutral-800 hover:bg-neutral-700 disabled:opacity-40 text-neutral-200 transition-colors flex items-center gap-1"
+                className="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white border border-slate-200 hover:bg-slate-50 disabled:opacity-40 text-slate-700 transition-colors flex items-center gap-1 shadow-xs"
               >
                 Next <ChevronRight className="w-3.5 h-3.5" />
               </button>

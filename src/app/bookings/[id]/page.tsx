@@ -51,10 +51,10 @@ export default function BookingDetailPage({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+      <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 max-w-5xl w-full mx-auto p-8">
-          <div className="h-64 rounded-2xl bg-slate-900 animate-pulse" />
+          <div className="h-64 rounded-3xl bg-white/70 border border-slate-200/60 animate-pulse shadow-xs" />
         </main>
       </div>
     );
@@ -62,12 +62,12 @@ export default function BookingDetailPage({
 
   if (error || !booking) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+      <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 max-w-md mx-auto p-12 text-center">
-          <AlertCircle className="h-10 w-10 text-red-400 mx-auto mb-3" />
-          <h2 className="text-lg font-bold text-white mb-2">Booking Not Found</h2>
-          <Link href="/bookings" className="text-xs text-indigo-400 hover:underline">
+          <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-3" />
+          <h2 className="text-lg font-bold text-[#0F1E4D] mb-2">Booking Not Found</h2>
+          <Link href="/bookings" className="text-xs text-[#2F6BFF] hover:underline font-semibold">
             Back to My Bookings
           </Link>
         </main>
@@ -82,58 +82,58 @@ export default function BookingDetailPage({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "approved":
-        return "bg-emerald-950/80 text-emerald-300 border-emerald-700/60";
+        return "bg-emerald-50 text-emerald-700 border-emerald-200";
       case "pending_review":
-        return "bg-amber-950/80 text-amber-300 border-amber-700/60";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "checked_in":
-        return "bg-cyan-950/80 text-cyan-300 border-cyan-700/60";
+        return "bg-cyan-50 text-cyan-700 border-cyan-200";
       case "returned":
       case "closed":
-        return "bg-slate-800 text-slate-300 border-slate-700";
+        return "bg-slate-100 text-slate-700 border-slate-200";
       case "waitlisted":
-        return "bg-purple-950/80 text-purple-300 border-purple-700/60";
+        return "bg-purple-50 text-purple-700 border-purple-200";
       case "overdue":
       case "rejected":
       case "cancelled":
-        return "bg-red-950/80 text-red-300 border-red-700/60";
+        return "bg-red-50 text-red-600 border-red-200";
       default:
-        return "bg-slate-800 text-slate-300 border-slate-700";
+        return "bg-slate-100 text-slate-700 border-slate-200";
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
         <Link
           href="/bookings"
-          className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition mb-6"
+          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-[#0F1E4D] transition mb-6 font-medium"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to All Bookings</span>
         </Link>
 
         {/* Header Summary */}
-        <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span
-                className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider border ${getStatusBadge(
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${getStatusBadge(
                   booking.status
                 )}`}
               >
                 {booking.status.replace("_", " ")}
               </span>
-              <span className="text-xs text-slate-500 font-mono">ID: {booking._id}</span>
+              <span className="text-xs text-slate-400 font-mono">ID: {booking._id}</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F1E4D] tracking-tight">
               {booking.resourceId?.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-2">
-              <span className="flex items-center gap-1 text-indigo-400 font-medium">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mt-2">
+              <span className="flex items-center gap-1 text-[#2F6BFF] font-semibold">
                 <Calendar className="h-3.5 w-3.5" />
                 {start.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" })}
               </span>
@@ -154,7 +154,7 @@ export default function BookingDetailPage({
           <div className="flex items-center gap-3">
             <Link
               href={`/resources/${booking.resourceId?._id}`}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition"
+              className="px-4 py-2 rounded-full bg-blue-50 hover:bg-blue-100 text-[#2F6BFF] border border-blue-200/60 text-xs font-semibold transition"
             >
               View Equipment Info
             </Link>
@@ -173,11 +173,11 @@ export default function BookingDetailPage({
             />
 
             {/* Purpose & Research Notes */}
-            <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+            <div className="p-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
                 Recorded Project Purpose
               </h3>
-              <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+              <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-200/70">
                 &ldquo;{booking.purpose}&rdquo;
               </p>
             </div>
@@ -192,8 +192,8 @@ export default function BookingDetailPage({
 
             {/* Incidents Section */}
             {incidents.length > 0 && (
-              <div className="p-6 rounded-2xl bg-slate-900/80 border border-red-950/60 shadow-xl space-y-4">
-                <div className="flex items-center gap-2 text-red-400 text-xs font-semibold uppercase tracking-wider">
+              <div className="p-6 rounded-3xl bg-red-50/50 border border-red-200 shadow-sm space-y-4">
+                <div className="flex items-center gap-2 text-red-700 text-xs font-bold uppercase tracking-wider">
                   <AlertTriangle className="h-4 w-4" />
                   <span>Reported Incidents ({incidents.length})</span>
                 </div>
@@ -202,11 +202,11 @@ export default function BookingDetailPage({
                   {incidents.map((inc: any) => (
                     <div
                       key={inc._id}
-                      className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 text-xs space-y-2"
+                      className="p-4 rounded-2xl bg-white border border-red-100 text-xs space-y-2 shadow-xs"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-white capitalize flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-300 border border-red-800 uppercase">
+                        <span className="font-bold text-[#0F1E4D] capitalize flex items-center gap-1.5">
+                          <span className="px-2 py-0.5 rounded text-[10px] bg-red-50 text-red-700 border border-red-200 uppercase">
                             {inc.type}
                           </span>
                           <span>Severity: {inc.severity}</span>
@@ -214,24 +214,24 @@ export default function BookingDetailPage({
                         <span
                           className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded ${
                             inc.status === "resolved"
-                              ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                              : "bg-amber-950 text-amber-300 border border-amber-800"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              : "bg-amber-50 text-amber-700 border border-amber-200"
                           }`}
                         >
                           {inc.status}
                         </span>
                       </div>
 
-                      <p className="text-slate-300">{inc.description}</p>
+                      <p className="text-slate-600">{inc.description}</p>
 
                       {inc.aiSummary && (
-                        <div className="p-3 rounded-lg bg-indigo-950/30 border border-indigo-900/40 text-[11px] text-indigo-200 whitespace-pre-line leading-relaxed">
+                        <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-200/70 text-[11px] text-blue-900 whitespace-pre-line leading-relaxed">
                           {inc.aiSummary}
                         </div>
                       )}
 
                       {inc.resolution && (
-                        <div className="text-[11px] text-emerald-300 bg-emerald-950/30 p-2.5 rounded-lg border border-emerald-900/40">
+                        <div className="text-[11px] text-emerald-800 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
                           <strong>Human Resolution:</strong> {inc.resolution}
                         </div>
                       )}
@@ -244,7 +244,7 @@ export default function BookingDetailPage({
 
           {/* Right Column: Immutable Audit Timeline */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl">
+            <div className="p-6 rounded-3xl bg-white/85 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <TimelineView bookingId={bookingId} />
             </div>
           </div>

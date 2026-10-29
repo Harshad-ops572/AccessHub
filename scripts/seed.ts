@@ -39,7 +39,7 @@ async function seed() {
 
   // 1. Create Users
   const admin = await User.create({
-    name: "Dr. Sarah Jenkins",
+    name: "Admin",
     email: "admin@campus.test",
     passwordHash,
     role: "admin",
@@ -50,7 +50,7 @@ async function seed() {
   });
 
   const ownerEng = await User.create({
-    name: "Prof. Marcus Vance",
+    name: "Owner (Engineering)",
     email: "owner.eng@campus.test",
     passwordHash,
     role: "owner",
@@ -61,7 +61,7 @@ async function seed() {
   });
 
   const ownerMedia = await User.create({
-    name: "Elena Rostova",
+    name: "Owner (Media)",
     email: "owner.media@campus.test",
     passwordHash,
     role: "owner",
@@ -72,7 +72,7 @@ async function seed() {
   });
 
   const manager = await User.create({
-    name: "Dave Kowalski",
+    name: "Manager",
     email: "manager@campus.test",
     passwordHash,
     role: "manager",
@@ -83,7 +83,7 @@ async function seed() {
   });
 
   const studentA = await User.create({
-    name: "Liam Chen",
+    name: "Student A",
     email: "student.a@campus.test",
     passwordHash,
     role: "user",
@@ -94,7 +94,7 @@ async function seed() {
   });
 
   const studentB = await User.create({
-    name: "Maya Patel",
+    name: "Student B",
     email: "student.b@campus.test",
     passwordHash,
     role: "user",
@@ -105,7 +105,7 @@ async function seed() {
   });
 
   const studentC = await User.create({
-    name: "Jordan Taylor",
+    name: "Student C",
     email: "student.c@campus.test",
     passwordHash,
     role: "user",
@@ -365,7 +365,7 @@ async function seed() {
     end: tomorrowEnd,
     purpose: "Scanning electron microscopy characterization of graphene oxide aerogels for thesis.",
     status: "approved",
-    decisionReason: "Approved by Prof. Vance: verified thesis milestone and safety clearance.",
+    decisionReason: "Approved by Owner (Engineering): verified thesis milestone and safety clearance.",
     eligibilitySnapshot: {
       eligible: true,
       evaluatedAt: new Date(),
@@ -496,7 +496,7 @@ async function seed() {
     entityType: "Booking",
     entityId: approvedBooking._id.toString(),
     after: { status: "approved", slot: `${tomorrow.toISOString()} - ${tomorrowEnd.toISOString()}` },
-    reason: "Approved by Prof. Vance: verified thesis milestone and safety clearance.",
+    reason: "Approved by Owner (Engineering): verified thesis milestone and safety clearance.",
   });
 
   console.log("✓ Seeded Initial Audit Trail entries");
@@ -508,13 +508,13 @@ async function seed() {
   console.log("All accounts share password: password123\n");
   console.log("| Role     | Email                   | Name                | Status / Notes                    |");
   console.log("|----------|-------------------------|---------------------|-----------------------------------|");
-  console.log("| admin    | admin@campus.test       | Dr. Sarah Jenkins   | Global controls & full audit log  |");
-  console.log("| owner    | owner.eng@campus.test   | Prof. Marcus Vance  | Engineering Lab / 3D printer owner|");
-  console.log("| owner    | owner.media@campus.test | Elena Rostova       | Media Lab / Camera studio owner   |");
-  console.log("| manager  | manager@campus.test     | Dave Kowalski       | Check-in/return, verify documents |");
-  console.log("| user     | student.a@campus.test   | Liam Chen           | Fully verified & eligible         |");
-  console.log("| user     | student.b@campus.test   | Maya Patel          | MISSING 3D printer safety cert    |");
-  console.log("| user     | student.c@campus.test   | Jordan Taylor       | AT 8h QUOTA LIMIT (1 strike)      |");
+  console.log("| admin    | admin@campus.test       | Admin               | Global controls & full audit log  |");
+  console.log("| owner    | owner.eng@campus.test   | Owner (Engineering) | Engineering Lab / 3D printer owner|");
+  console.log("| owner    | owner.media@campus.test | Owner (Media)       | Media Lab / Camera studio owner   |");
+  console.log("| manager  | manager@campus.test     | Manager             | Check-in/return, verify documents |");
+  console.log("| user     | student.a@campus.test   | Student A           | Fully verified & eligible         |");
+  console.log("| user     | student.b@campus.test   | Student B           | MISSING 3D printer safety cert    |");
+  console.log("| user     | student.c@campus.test   | Student C           | AT 8h QUOTA LIMIT (1 strike)      |");
   const userCount = await User.countDocuments();
   const resourceCount = await Resource.countDocuments();
   const bookingCount = await Booking.countDocuments();
